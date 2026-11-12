@@ -1,15 +1,13 @@
 import { useEffect, useRef } from "react";
 
-export type ActivePage = 1 | 2 | 3;
-
 interface BackgroundProps {
   prefersReducedMotion: boolean;
-  activePage: ActivePage;
+  showArch: boolean;
 }
 
 export function Background({
   prefersReducedMotion,
-  activePage,
+  showArch,
 }: BackgroundProps) {
   const imageRef = useRef<HTMLDivElement>(null);
 
@@ -55,12 +53,8 @@ export function Background({
             style={{ backgroundImage: `url("${base}bg.jpg?v=7")` }}
           />
           <div
-            className={`bg-image-rug ${activePage === 2 ? "is-visible" : ""}`}
+            className={`bg-image-rug ${showArch ? "is-visible" : ""}`}
             style={{ backgroundImage: `url("${base}bg-rug.jpg?v=2")` }}
-          />
-          <div
-            className={`bg-image-page3 ${activePage === 3 ? "is-visible" : ""}`}
-            style={{ backgroundImage: `url("${base}bg-page3.jpg?v=1")` }}
           />
         </div>
       </div>

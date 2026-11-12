@@ -1,10 +1,10 @@
 :root {
-  --ink: #5c1424;
-  --burgundy: #7a1230;
+  --ink: #5a1020;
+  --burgundy: #5a1020;
   --backdrop: #4a0a15;
   --cream: #eadfcf;
-  --gold: #a9792f;
-  --col-width: min(100vw, 56.25svh);
+  --gold: #a67c37;
+  --col-width: min(100vw, 56.25dvh);
 }
 
 *,
@@ -19,7 +19,7 @@ body,
   margin: 0;
   padding: 0;
   width: 100%;
-  height: 100svh;
+  height: 100dvh;
   overflow: hidden;
   background-color: var(--backdrop);
   color: var(--ink);
@@ -31,7 +31,7 @@ body,
 .app-shell {
   position: relative;
   width: 100%;
-  height: 100svh;
+  height: 100dvh;
   overflow: hidden;
   background-color: var(--backdrop);
 }
@@ -49,7 +49,7 @@ body,
 .bg-column {
   position: relative;
   width: var(--col-width);
-  height: 100svh;
+  height: 100dvh;
   overflow: hidden;
   background-color: var(--cream);
   box-shadow: 0 0 60px rgba(0, 0, 0, 0.45);
@@ -62,8 +62,7 @@ body,
 }
 
 .bg-image,
-.bg-image-rug,
-.bg-image-page3 {
+.bg-image-rug {
   position: absolute;
   inset: 0;
   background-size: cover;
@@ -73,23 +72,11 @@ body,
 
 .bg-image-rug {
   opacity: 0;
-  transition: opacity 0.65s ease-in-out;
+  transition: opacity 0.55s ease-out;
 }
 
-.bg-image-page3 {
-  opacity: 0;
-  transition: opacity 0.65s ease-in-out;
-}
-
-.bg-image-rug.is-visible,
-.bg-image-page3.is-visible {
+.bg-image-rug.is-visible {
   opacity: 1;
-}
-
-.page-2-theme {
-  --ink: #eadfcf;
-  --burgundy: #f5ead8;
-  --gold: #e0be7d;
 }
 
 /* Falling Petals Layer */
@@ -99,7 +86,7 @@ body,
   width: var(--col-width);
   left: 50%;
   transform: translateX(-50%);
-  height: 100svh;
+  height: 100dvh;
   z-index: 5;
   overflow: hidden;
   pointer-events: none;
@@ -113,89 +100,17 @@ body,
   will-change: transform, opacity;
 }
 
-/* Masked Reading Band (44% - 73% on Page 1; 13% - 87% inside Velvet Arch on Page 2) */
-.reading-band-mask {
+/* Full-Page Snap Scroll Container */
+.scroll-container {
   position: fixed;
   inset: 0;
   z-index: 10;
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    transparent 43%,
-    rgba(0, 0, 0, 1) 47%,
-    rgba(0, 0, 0, 1) 70%,
-    transparent 74%,
-    transparent 100%
-  );
-  mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    transparent 43%,
-    rgba(0, 0, 0, 1) 47%,
-    rgba(0, 0, 0, 1) 70%,
-    transparent 74%,
-    transparent 100%
-  );
-}
-
-.reading-band-mask.is-page-2 {
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    transparent 11%,
-    rgba(0, 0, 0, 1) 17%,
-    rgba(0, 0, 0, 1) 83%,
-    transparent 89%,
-    transparent 100%
-  );
-  mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    transparent 11%,
-    rgba(0, 0, 0, 1) 17%,
-    rgba(0, 0, 0, 1) 83%,
-    transparent 89%,
-    transparent 100%
-  );
-}
-
-.reading-band-mask.is-page-3 {
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    transparent 16%,
-    rgba(0, 0, 0, 1) 22%,
-    rgba(0, 0, 0, 1) 74%,
-    transparent 80%,
-    transparent 100%
-  );
-  mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    transparent 16%,
-    rgba(0, 0, 0, 1) 22%,
-    rgba(0, 0, 0, 1) 74%,
-    transparent 80%,
-    transparent 100%
-  );
-}
-
-.page-3-section {
-  display: block;
-}
-
-.page-3-section .beat-card {
-  scroll-margin-top: 0;
-  scroll-margin-bottom: 6svh;
-}
-
-.scroll-container {
-  position: relative;
   width: 100%;
-  height: 100svh;
+  height: 100dvh;
   overflow-y: auto;
   overflow-x: hidden;
-  scroll-snap-type: y proximity;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
   outline: none;
@@ -205,278 +120,165 @@ body,
   display: none;
 }
 
-.reading-column {
-  width: min(86vw, calc(var(--col-width) * 0.84));
-  max-width: 560px;
+.snap-column {
+  width: var(--col-width);
   margin: 0 auto;
+}
+
+.snap-page {
+  width: 100%;
+  height: 100dvh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding-left: env(safe-area-inset-left);
   padding-right: env(safe-area-inset-right);
+}
+
+/* Page 1 sits cleanly inside the open mandala box (44% - 72% height) */
+.snap-page-intro {
+  padding-top: 15dvh;
+}
+
+/* Pages 2-7 sit centered inside the cream floral arch (9% - 89.5% height) */
+.snap-page-arch {
+  padding-top: 4dvh;
+  padding-bottom: 4dvh;
+}
+
+/* Single-unit entrance animation: opacity + translateY only (NO blur) */
+.page-card {
+  width: 82%;
+  max-width: 560px;
+  margin: 0 auto;
   text-align: center;
-}
-
-.spacer-top {
-  height: calc(46.5svh + env(safe-area-inset-top));
-}
-
-.spacer-bottom {
-  height: calc(34svh + env(safe-area-inset-bottom));
-}
-
-/* Beats */
-.beat {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.35rem;
-  margin-bottom: 20svh;
-  scroll-snap-align: center;
-  scroll-margin-top: 14svh;
-}
-
-.beat-intro {
   gap: 0.45rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+  white-space: normal;
+  word-break: normal;
 }
 
-.intro-block {
-  width: 100%;
-  max-width: 560px;
-  margin: 0 auto;
-  text-align: center;
+.page-card-arch {
+  width: 68%;
+  max-width: 380px;
+  gap: 0.42rem;
 }
 
-.page-2-theme {
-  --ink: #5c1424;
-  --burgundy: #7a1230;
-  --gold: #a9792f;
-  min-height: 58svh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 20svh;
+.snap-page.is-visible .page-card {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-.beat-card-arch {
-  margin-bottom: 0;
-  scroll-margin-top: 0;
-  gap: 0.5rem;
+/* Typography */
+.bismillah {
+  font-family: "Amiri", serif;
+  font-size: clamp(1.15rem, 2.7dvh, 1.55rem);
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.cover-tagline {
+  font-family: "Cormorant SC", Georgia, serif;
+  font-size: clamp(0.88rem, 1.9dvh, 1.08rem);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+  margin: 0;
+  line-height: 1.3;
 }
 
 .intro-blessing {
   font-family: "EB Garamond", Georgia, serif;
-  font-size: clamp(1.02rem, 2.2svh, 1.45rem);
-  line-height: 1.5;
+  font-size: clamp(0.95rem, 2.05dvh, 1.25rem);
+  line-height: 1.48;
   color: var(--ink);
-  white-space: normal;
-  word-break: normal;
-  width: 100%;
-  max-width: 560px;
-  margin: 0 auto;
-}
-
-.event-group {
-  display: contents;
-}
-
-/* Typography */
-.bismillah-wrap {
-  margin-bottom: 0.45rem;
-}
-
-.bismillah {
-  font-family: "Amiri", serif;
-  font-size: clamp(1.35rem, 3.3svh, 1.75rem);
-  font-weight: 700;
-  color: var(--burgundy);
   margin: 0;
-  line-height: 1.5;
-  display: inline-block;
-}
-
-.cover-tagline {
-  font-family: "EB Garamond", Georgia, serif;
-  font-style: italic;
-  font-size: clamp(1.05rem, 2.3svh, 1.3rem);
-  color: var(--ink);
-  margin: 0 0 0.55rem;
-  line-height: 1.35;
-}
-
-.cover-names-wrap {
-  margin-top: 20px;
 }
 
 .cover-names {
   font-family: "Cormorant SC", Georgia, serif;
-  font-size: clamp(1.45rem, 3.6svh, 2.35rem);
+  font-size: clamp(1.35rem, 3.1dvh, 2.1rem);
   font-weight: 600;
-  color: var(--burgundy);
-  margin: 0;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+  margin: 14px 0 0;
   line-height: 1.2;
 }
 
 .couple-header {
   font-family: "Cormorant SC", Georgia, serif;
-  font-size: clamp(0.78rem, 1.6svh, 0.92rem);
+  font-size: clamp(0.74rem, 1.55dvh, 0.88rem);
   font-weight: 600;
-  letter-spacing: 0.16em;
-  color: var(--burgundy);
-  margin: 0 0 0.35rem;
+  letter-spacing: 0.14em;
+  color: var(--ink);
+  margin: 0;
 }
 
 .invited-line {
   font-family: "EB Garamond", Georgia, serif;
   font-style: italic;
-  font-size: clamp(0.92rem, 1.95svh, 1.08rem);
+  font-size: clamp(0.88rem, 1.85dvh, 1.02rem);
   color: var(--ink);
-  margin: 0 0 0.45rem;
-  line-height: 1.3;
-}
-
-.title-outer {
-  width: 100%;
   margin: 0;
+  line-height: 1.32;
 }
 
 .event-title {
-  width: 100%;
   font-family: "Cormorant SC", Georgia, serif;
-  font-size: clamp(1.35rem, 2.9svh, 1.75rem);
+  font-size: clamp(1.25rem, 2.75dvh, 1.65rem);
   font-weight: 600;
-  color: var(--burgundy);
-  margin: 0;
-  line-height: 1.15;
-}
-
-.title-line {
-  display: block;
-  width: 100%;
-}
-
-.title-word {
-  display: inline-block;
-  white-space: nowrap;
-}
-
-.title-char {
-  display: inline-block;
-  will-change: transform, opacity;
-}
-
-.title-skew {
-  will-change: transform;
-}
-
-.event-tagline {
-  font-family: "EB Garamond", Georgia, serif;
-  font-style: italic;
-  font-size: clamp(1rem, 2.15svh, 1.18rem);
+  letter-spacing: 0.05em;
   color: var(--ink);
-  margin: 0 0 0.55rem;
-  line-height: 1.35;
+  margin: 0.1rem 0;
+  line-height: 1.18;
 }
 
+.event-tagline,
 .body-copy,
-.event-note {
-  font-family: "EB Garamond", Georgia, serif;
-  font-size: clamp(0.96rem, 2.05svh, 1.12rem);
-  color: var(--ink);
-  margin: 0;
-  line-height: 1.42;
-}
-
-.event-note {
-  font-style: italic;
-}
-
-.line-break {
-  display: block;
-}
-
+.event-note,
 .signoff {
   font-family: "EB Garamond", Georgia, serif;
-  font-style: italic;
-  font-size: clamp(0.98rem, 2.05svh, 1.14rem);
+  font-size: clamp(0.88rem, 1.85dvh, 1.04rem);
   color: var(--ink);
-  margin: 0 0 0.35rem;
-}
-
-.signature-script {
-  font-family: "Great Vibes", cursive;
-  font-size: clamp(2rem, 4.3svh, 2.65rem);
-  color: var(--burgundy);
   margin: 0;
-  line-height: 1.2;
+  line-height: 1.38;
 }
 
-/* Gold Ornament Divider */
-.divider-wrap {
-  width: 100%;
-  display: flex;
-  justify-content: center;
+.event-tagline,
+.event-note,
+.signoff {
+  font-style: italic;
 }
 
-.divider {
-  width: min(72%, 220px);
-  margin: 0.25rem auto 0;
-}
-
-.divider-svg {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-/* Details Box */
-.details-outer {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
+/* Rounded Gold Details Box */
 .details-box {
-  position: relative;
   width: 100%;
-  max-width: 310px;
-  padding: 0.75rem 1rem;
+  margin: 0.25rem auto;
+  padding: 0.6rem 0.85rem;
+  border: 1px solid var(--gold);
   border-radius: 10px;
-}
-
-.details-border-svg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-
-.details-rows {
-  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 0.45rem;
-  text-align: left;
+  align-items: center;
+  gap: 0.36rem;
 }
 
 .details-row {
   display: flex;
-  align-items: flex-start;
-  gap: 0.6rem;
-}
-
-.page-2-theme .details-rows {
   align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
   text-align: center;
-}
-
-.page-2-theme .details-row {
-  flex-direction: column;
-  align-items: center;
-  gap: 0.2rem;
-}
-
-.page-2-theme .details-icon {
-  margin-top: 0;
 }
 
 .details-icon {
@@ -484,25 +286,20 @@ body,
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin-top: 0.14rem;
 }
 
 .details-text {
   font-family: "EB Garamond", Georgia, serif;
-  font-size: clamp(0.92rem, 1.95svh, 1.06rem);
+  font-size: clamp(0.86rem, 1.8dvh, 1rem);
   color: var(--ink);
   line-height: 1.3;
-}
-
-.details-line {
-  display: block;
 }
 
 /* Right-edge Gold Scroll Progress Line */
 .progress-track-frame {
   position: fixed;
-  top: 45svh;
-  bottom: 28svh;
+  top: 22dvh;
+  bottom: 22dvh;
   left: 50%;
   transform: translateX(-50%);
   width: var(--col-width);
@@ -516,7 +313,7 @@ body,
   top: 0;
   bottom: 0;
   width: 2px;
-  background-color: rgba(169, 121, 47, 0.18);
+  background-color: rgba(166, 124, 55, 0.2);
   border-radius: 999px;
   overflow: hidden;
 }
@@ -528,39 +325,25 @@ body,
   border-radius: 999px;
 }
 
+/* Small screen font scaling without narrowing text box */
+@media (max-height: 700px) {
+  .page-card-arch {
+    gap: 0.28rem;
+  }
+  .details-box {
+    padding: 0.45rem 0.7rem;
+    gap: 0.25rem;
+  }
+}
+
 /* Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
-  .reading-band-mask.is-page-3 {
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    transparent 16%,
-    rgba(0, 0, 0, 1) 22%,
-    rgba(0, 0, 0, 1) 74%,
-    transparent 80%,
-    transparent 100%
-  );
-  mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    transparent 16%,
-    rgba(0, 0, 0, 1) 22%,
-    rgba(0, 0, 0, 1) 74%,
-    transparent 80%,
-    transparent 100%
-  );
-}
-
-.page-3-section {
-  display: block;
-}
-
-.page-3-section .beat-card {
-  scroll-margin-top: 0;
-  scroll-margin-bottom: 6svh;
-}
-
-.scroll-container {
-    scroll-snap-type: none;
+  .scroll-container {
+    scroll-behavior: auto;
+  }
+  .page-card {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }
