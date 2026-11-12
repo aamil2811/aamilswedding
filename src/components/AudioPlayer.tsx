@@ -1,37 +1,40 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 
 export function AudioPlayer() {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [playing, setPlaying] = useState(false);
-  // showSplash = true until user taps — then audio starts and splash fades out
+  const [started, setStarted] = useState(false);
   const [showSplash, setShowSplash] = useState(true);
   const [splashGone, setSplashGone] = useState(false);
 
-  // On mount: try silent autoplay (works on some browsers/contexts).
-  // If it fails, the splash screen handles first interaction.
+  // Pause when user leaves the browser tab / switches app
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
-    audio
-      .play()
-      .then(() => {
-        setPlaying(true);
-        // Autoplay succeeded — dismiss splash quietly
-        setShowSplash(false);
-        setTimeout(() => setSplashGone(true), 600);
-      })
-      .catch(() => {
-        // Blocked — splash screen will handle it
-      });
-  }, []);
 
-  const startFromSplash = () => {
+    const handleVisibility = () => {
+      if (document.hidden) {
+        audio.pause();
+        setPlaying(false);
+      } else if (started) {
+        audio.play().then(() => setPlaying(true)).catch(() => {});
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibility);
+    return () => document.removeEventListener("visibilitychange", handleVisibility);
+  }, [started]);
+
+  const dismissSplash = useCallback(() => {
     const audio = audioRef.current;
     if (!audio) return;
-    audio.play().then(() => setPlaying(true)).catch(() => {});
+    audio.play().then(() => {
+      setPlaying(true);
+      setStarted(true);
+    }).catch(() => {});
     setShowSplash(false);
     setTimeout(() => setSplashGone(true), 650);
-  };
+  }, []);
 
   const toggle = () => {
     const audio = audioRef.current;
@@ -40,7 +43,10 @@ export function AudioPlayer() {
       audio.pause();
       setPlaying(false);
     } else {
-      audio.play().then(() => setPlaying(true)).catch(() => {});
+      audio.play().then(() => {
+        setPlaying(true);
+        setStarted(true);
+      }).catch(() => {});
     }
   };
 
@@ -48,23 +54,35 @@ export function AudioPlayer() {
     <>
       <audio ref={audioRef} src="./bg-music.mp3" loop preload="auto" />
 
-      {/* Full-screen tap-to-begin splash */}
+      {/* Floral circle splash screen */}
       {!splashGone && (
         <div
           className={`splash-screen ${!showSplash ? "splash-screen--out" : ""}`}
-          onClick={startFromSplash}
+          onClick={dismissSplash}
           role="button"
           aria-label="Tap to open invitation"
         >
-          <div className="splash-inner">
-            <p className="splash-bismillah" lang="ar" dir="rtl">
-              بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
-            </p>
-            <p className="splash-names">Dr. Kamil &amp; Aatika</p>
-            <p className="splash-subtitle">Wedding Invitation</p>
-            <div className="splash-tap-hint">
-              <span className="splash-tap-pulse" />
-              Tap to open
+          {/* Decorative floral ring */}
+          <div className="splash-floral-ring">
+            {/* Top-right cluster */}
+            <div className="splash-flower splash-flower--tr" />
+            {/* Bottom-left cluster */}
+            <div className="splash-flower splash-flower--bl" />
+            {/* Top-left accent */}
+            <div className="splash-flower splash-flower--tl" />
+            {/* Bottom-right accent */}
+            <div className="splash-flower splash-flower--br" />
+
+            <div className="splash-inner">
+              <p className="splash-bismillah" lang="ar" dir="rtl">
+                بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
+              </p>
+              <p className="splash-names">Dr. Kamil &amp; Aatika</p>
+              <p className="splash-subtitle">Wedding Invitation</p>
+              <div className="splash-tap-hint">
+                <span className="splash-tap-pulse" />
+                Tap to open
+              </div>
             </div>
           </div>
         </div>
