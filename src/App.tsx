@@ -5,6 +5,7 @@ import { Background } from "./components/Background";
 import { Petals } from "./components/Petals";
 import { ReadingBand } from "./components/ReadingBand";
 import { ProgressLine } from "./components/ProgressLine";
+import { AudioPlayer } from "./components/AudioPlayer";
 
 export function App() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -24,6 +25,7 @@ export function App() {
         <Petals prefersReducedMotion={prefersReducedMotion} />
         <ReadingBand onPageChange={setActivePage} />
         <ProgressLine />
+        <AudioPlayer />
       </div>
     </ScrollProvider>
   );
