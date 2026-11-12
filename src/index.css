@@ -140,51 +140,28 @@ body,
   padding-right: env(safe-area-inset-right);
 }
 
-/* Page 1 sits cleanly inside the open mandala box (44% - 72% height) */
-.snap-page-intro {
-  padding-top: 15dvh;
-}
-
-/* Pages 2-7 sit centered inside the cream floral arch (9% - 89.5% height) */
-/* Pages 3-4 sit centered inside the cream floral arch (9% - 89.5% height) */
-.snap-page-arch {
-  padding-top: 4dvh;
-  padding-bottom: 4dvh;
-}
-
-.snap-page-events {
-  height: auto;
-  min-height: 100dvh;
+/* ---- SLIDE 1: Intro + Nikah (floral bg.jpg) ---- */
+.snap-page-slide1 {
   padding-top: 10dvh;
-  padding-bottom: 10dvh;
-  scroll-snap-align: start;
-}
-
-.page-card-multi {
-  gap: 2.2rem;
-  width: 72%;
-  max-width: 400px;
-}
-
-.event-content-block {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
+  padding-bottom: 4dvh;
   align-items: center;
-  justify-content: center;
-  gap: 0.42rem;
-  text-align: center;
 }
 
-.card-divider {
-  width: 50%;
-  height: 1px;
-  background: linear-gradient(to right, transparent, var(--gold), transparent);
-  opacity: 0.6;
-  margin: 0.4rem 0;
+/* ---- SLIDE 2: Mameru + Haldi + Barat (damask bg-page3.jpg) ---- */
+.snap-page-slide2 {
+  padding-top: 6dvh;
+  padding-bottom: 6dvh;
+  align-items: center;
 }
 
-/* Single-unit entrance animation: opacity + translateY only (NO blur) */
+/* ---- SLIDE 3: Walima + Thank You (Persian rug bg-rug.jpg arch) ---- */
+.snap-page-slide3 {
+  padding-top: 6dvh;
+  padding-bottom: 6dvh;
+  align-items: center;
+}
+
+/* Shared scroll card wrapper (single-unit entrance animation) */
 .page-card {
   width: 82%;
   max-width: 560px;
@@ -194,23 +171,65 @@ body,
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.45rem;
+  gap: 0.6rem;
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.7s ease-out, transform 0.7s ease-out;
   white-space: normal;
   word-break: normal;
+  overflow-y: auto;
+  max-height: 88dvh;
+  scrollbar-width: none;
 }
 
-.page-card-arch {
+.page-card::-webkit-scrollbar {
+  display: none;
+}
+
+/* Slide-specific card sizing */
+.page-card-slide1 {
+  width: 80%;
+  max-width: 520px;
+  gap: 0.55rem;
+}
+
+.page-card-slide2 {
+  width: 72%;
+  max-width: 400px;
+  gap: 0.4rem;
+}
+
+.page-card-slide3 {
   width: 68%;
   max-width: 380px;
-  gap: 0.42rem;
+  gap: 0.4rem;
 }
 
 .snap-page.is-visible .page-card {
   opacity: 1;
   transform: translateY(0);
+}
+
+.event-content-block {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  text-align: center;
+}
+
+.intro-block {
+  gap: 0.5rem;
+}
+
+.card-divider {
+  width: 50%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--gold), transparent);
+  opacity: 0.6;
+  margin: 0.5rem 0;
 }
 
 /* Typography */

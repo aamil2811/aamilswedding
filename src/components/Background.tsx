@@ -43,8 +43,11 @@ export function Background({
   }, [prefersReducedMotion]);
 
   const base = import.meta.env.BASE_URL;
+  // Slide 1 (pages 1–2): floral bg.jpg (default, always visible under others)
+  // Slide 2 (pages 3–5): cream damask bg-page3.jpg
+  // Slide 3 (pages 6–7): Persian rug arch bg-rug.jpg
+  const showPage3Bg = activePage === 2;
   const showRug = activePage === 3;
-  const showPage3Bg = activePage === 2 || activePage === 4;
 
   return (
     <div className="bg-stage" aria-hidden="true">
