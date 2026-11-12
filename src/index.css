@@ -143,9 +143,42 @@ body,
 }
 
 /* Pages 2-7 sit centered inside the cream floral arch (9% - 89.5% height) */
+/* Pages 3-4 sit centered inside the cream floral arch (9% - 89.5% height) */
 .snap-page-arch {
   padding-top: 4dvh;
   padding-bottom: 4dvh;
+}
+
+.snap-page-events {
+  height: auto;
+  min-height: 100dvh;
+  padding-top: 10dvh;
+  padding-bottom: 10dvh;
+  scroll-snap-align: start;
+}
+
+.page-card-multi {
+  gap: 2.2rem;
+  width: 72%;
+  max-width: 400px;
+}
+
+.event-content-block {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.42rem;
+  text-align: center;
+}
+
+.card-divider {
+  width: 50%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--gold), transparent);
+  opacity: 0.6;
+  margin: 0.4rem 0;
 }
 
 /* Single-unit entrance animation: opacity + translateY only (NO blur) */

@@ -7,57 +7,44 @@ interface ReadingBandProps {
   onPageChange: (page: number) => void;
 }
 
-function EventSection({
-  pageNumber,
-  event,
-  isVisible,
-}: {
-  pageNumber: number;
-  event: WeddingEvent;
-  isVisible: boolean;
-}) {
+function EventCard({ event }: { event: WeddingEvent }) {
   return (
-    <section
-      data-page={pageNumber}
-      className={`snap-page snap-page-arch ${isVisible ? "is-visible" : ""}`}
-    >
-      <div className="page-card page-card-arch">
-        <p className="couple-header">{event.header ?? invite.couple}</p>
+    <div className="event-content-block">
+      <p className="couple-header">{event.header ?? invite.couple}</p>
 
-        {event.bismillah && (
-          <p
-            className="bismillah"
-            lang="ar"
-            dir="rtl"
-            aria-label="Bismillahir Rahmanir Rahim"
-          >
-            {event.bismillah}
-          </p>
-        )}
-
-        <p className="invited-line">
-          {Array.isArray(event.invitedLine)
-            ? event.invitedLine.join(" ")
-            : event.invitedLine}
+      {event.bismillah && (
+        <p
+          className="bismillah"
+          lang="ar"
+          dir="rtl"
+          aria-label="Bismillahir Rahmanir Rahim"
+        >
+          {event.bismillah}
         </p>
+      )}
 
-        <h2 className="event-title">{event.title.join(" ")}</h2>
+      <p className="invited-line">
+        {Array.isArray(event.invitedLine)
+          ? event.invitedLine.join(" ")
+          : event.invitedLine}
+      </p>
 
-        {event.tagline && (
-          <p className="event-tagline">{event.tagline.join(" ")}</p>
-        )}
+      <h2 className="event-title">{event.title.join(" ")}</h2>
 
-        <DetailsBox
-          date={event.date}
-          time={event.time}
-          place={event.place}
-        />
+      {event.tagline && (
+        <p className="event-tagline">{event.tagline.join(" ")}</p>
+      )}
 
-        {event.note && (
-          <p className="event-note">{event.note.join(" ")}</p>
-        )}
-      </div>
-    </section>
+      <DetailsBox
+        date={event.date}
+        time={event.time}
+        place={event.place}
+      />
+
+      {event.note && (
+        <p className="event-note">{event.note.join(" ")}</p>
+      )}
+    </div>
   );
 }
 
@@ -100,7 +87,7 @@ export function ReadingBand({ onPageChange }: ReadingBandProps) {
       },
       {
         root: scroller,
-        threshold: 0.5,
+        threshold: 0.35,
       }
     );
 
@@ -138,25 +125,36 @@ export function ReadingBand({ onPageChange }: ReadingBandProps) {
           </div>
         </section>
 
-        {/* PAGE 2: Nikah Ceremony */}
-        <EventSection pageNumber={2} event={nikah} isVisible={isVisible(2)} />
-
-        {/* PAGE 3: Mameru Celebration */}
-        <EventSection pageNumber={3} event={mameru} isVisible={isVisible(3)} />
-
-        {/* PAGE 4: Haldi Celebration */}
-        <EventSection pageNumber={4} event={haldi} isVisible={isVisible(4)} />
-
-        {/* PAGE 5: Barat */}
-        <EventSection pageNumber={5} event={barat} isVisible={isVisible(5)} />
-
-        {/* PAGE 6: Dawat-E-Walima */}
-        <EventSection pageNumber={6} event={walima} isVisible={isVisible(6)} />
-
-        {/* PAGE 7: Thank You */}
+        {/* PAGE 2: The Event Pages (Nikah, Mameru, Haldi, Barat) */}
         <section
-          data-page={7}
-          className={`snap-page snap-page-arch ${isVisible(7) ? "is-visible" : ""}`}
+          data-page={2}
+          className={`snap-page snap-page-events ${isVisible(2) ? "is-visible" : ""}`}
+        >
+          <div className="page-card page-card-arch page-card-multi">
+            <EventCard event={nikah} />
+            <div className="card-divider" />
+            <EventCard event={mameru} />
+            <div className="card-divider" />
+            <EventCard event={haldi} />
+            <div className="card-divider" />
+            <EventCard event={barat} />
+          </div>
+        </section>
+
+        {/* PAGE 3: Dawat-E-Walima (Dedicated cream arch on Persian rug) */}
+        <section
+          data-page={3}
+          className={`snap-page snap-page-arch ${isVisible(3) ? "is-visible" : ""}`}
+        >
+          <div className="page-card page-card-arch">
+            <EventCard event={walima} />
+          </div>
+        </section>
+
+        {/* PAGE 4: Thank You (comes right after Walima) */}
+        <section
+          data-page={4}
+          className={`snap-page snap-page-arch ${isVisible(4) ? "is-visible" : ""}`}
         >
           <div className="page-card page-card-arch">
             <p className="couple-header">{invite.couple}</p>
