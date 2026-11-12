@@ -19,7 +19,7 @@ export function App() {
       <div className="app-shell">
         <Background
           prefersReducedMotion={prefersReducedMotion}
-          showArch={activePage >= 2}
+          activePage={activePage}
         />
         <Petals prefersReducedMotion={prefersReducedMotion} />
         <ReadingBand onPageChange={setActivePage} />

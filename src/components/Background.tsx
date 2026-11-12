@@ -2,12 +2,12 @@ import { useEffect, useRef } from "react";
 
 interface BackgroundProps {
   prefersReducedMotion: boolean;
-  showArch: boolean;
+  activePage: number;
 }
 
 export function Background({
   prefersReducedMotion,
-  showArch,
+  activePage,
 }: BackgroundProps) {
   const imageRef = useRef<HTMLDivElement>(null);
 
@@ -43,6 +43,8 @@ export function Background({
   }, [prefersReducedMotion]);
 
   const base = import.meta.env.BASE_URL;
+  const showRug = activePage === 3;
+  const showPage3Bg = activePage === 2 || activePage === 4;
 
   return (
     <div className="bg-stage" aria-hidden="true">
@@ -53,7 +55,11 @@ export function Background({
             style={{ backgroundImage: `url("${base}bg.jpg?v=7")` }}
           />
           <div
-            className={`bg-image-rug ${showArch ? "is-visible" : ""}`}
+            className={`bg-image-page3 ${showPage3Bg ? "is-visible" : ""}`}
+            style={{ backgroundImage: `url("${base}bg-page3.jpg?v=1")` }}
+          />
+          <div
+            className={`bg-image-rug ${showRug ? "is-visible" : ""}`}
             style={{ backgroundImage: `url("${base}bg-rug.jpg?v=2")` }}
           />
         </div>

@@ -62,7 +62,8 @@ body,
 }
 
 .bg-image,
-.bg-image-rug {
+.bg-image-rug,
+.bg-image-page3 {
   position: absolute;
   inset: 0;
   background-size: cover;
@@ -70,12 +71,14 @@ body,
   background-repeat: no-repeat;
 }
 
-.bg-image-rug {
+.bg-image-rug,
+.bg-image-page3 {
   opacity: 0;
   transition: opacity 0.55s ease-out;
 }
 
-.bg-image-rug.is-visible {
+.bg-image-rug.is-visible,
+.bg-image-page3.is-visible {
   opacity: 1;
 }
 
