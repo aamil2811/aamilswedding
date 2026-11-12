@@ -315,26 +315,24 @@ export function ReadingBand({ activePage, onPageChange }: ReadingBandProps) {
         <main className="reading-column">
           <div className="spacer-top" aria-hidden="true" />
 
-          {/* PAGE 1: INTRODUCTION (fits together inside the frame box) */}
+          {/* PAGE 1: INTRODUCTION (fades in as one cohesive block inside the frame box) */}
           <Beat id="page-1-intro" className="beat-intro">
-            <FadeText className="bismillah-wrap">
-              <p
-                className="bismillah bismillah-inner"
-                lang="ar"
-                dir="rtl"
-                aria-label="Bismillahir Rahmanir Rahim"
-              >
-                {invite.cover.bismillah}
-              </p>
-            </FadeText>
-            <FadeText>
+            <FadeText className="intro-block">
+              <div className="bismillah-wrap">
+                <p
+                  className="bismillah bismillah-inner"
+                  lang="ar"
+                  dir="rtl"
+                  aria-label="Bismillahir Rahmanir Rahim"
+                >
+                  {invite.cover.bismillah}
+                </p>
+              </div>
               <p className="cover-tagline">{invite.cover.line1}</p>
-            </FadeText>
-            <FadeText>
               <p className="body-copy intro-blessing">{invite.cover.blessing}</p>
-            </FadeText>
-            <FadeText isTitle className="cover-names-wrap">
-              <h1 className="cover-names title-skew">{invite.cover.names}</h1>
+              <div className="cover-names-wrap">
+                <h1 className="cover-names title-skew">{invite.cover.names}</h1>
+              </div>
             </FadeText>
           </Beat>
 
