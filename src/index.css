@@ -71,18 +71,12 @@ body,
   background-repeat: no-repeat;
 }
 
-.bg-image {
-  background-image: url("/bg.jpg?v=7");
-}
-
 .bg-image-rug {
-  background-image: url("/bg-rug.jpg?v=2");
   opacity: 0;
   transition: opacity 0.65s ease-in-out;
 }
 
 .bg-image-page3 {
-  background-image: url("/bg-page3.jpg?v=1");
   opacity: 0;
   transition: opacity 0.65s ease-in-out;
 }

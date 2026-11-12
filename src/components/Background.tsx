@@ -44,14 +44,23 @@ export function Background({
     };
   }, [prefersReducedMotion]);
 
+  const base = import.meta.env.BASE_URL;
+
   return (
     <div className="bg-stage" aria-hidden="true">
       <div className="bg-column">
         <div ref={imageRef} className="bg-breath-layer">
-          <div className="bg-image" />
-          <div className={`bg-image-rug ${activePage === 2 ? "is-visible" : ""}`} />
+          <div
+            className="bg-image"
+            style={{ backgroundImage: `url("${base}bg.jpg?v=7")` }}
+          />
+          <div
+            className={`bg-image-rug ${activePage === 2 ? "is-visible" : ""}`}
+            style={{ backgroundImage: `url("${base}bg-rug.jpg?v=2")` }}
+          />
           <div
             className={`bg-image-page3 ${activePage === 3 ? "is-visible" : ""}`}
+            style={{ backgroundImage: `url("${base}bg-page3.jpg?v=1")` }}
           />
         </div>
       </div>
