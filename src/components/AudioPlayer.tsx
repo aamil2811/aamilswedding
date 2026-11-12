@@ -1,37 +1,38 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 
 export function AudioPlayer() {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [playing, setPlaying] = useState(false);
-  // showSplash = true until user taps — then audio starts and splash fades out
+  const [started, setStarted] = useState(false);
   const [showSplash, setShowSplash] = useState(true);
   const [splashGone, setSplashGone] = useState(false);
 
-  // On mount: try silent autoplay (works on some browsers/contexts).
-  // If it fails, the splash screen handles first interaction.
+  // Pause when user leaves the browser tab / switches app
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
-    audio
-      .play()
-      .then(() => {
-        setPlaying(true);
-        // Autoplay succeeded — dismiss splash quietly
-        setShowSplash(false);
-        setTimeout(() => setSplashGone(true), 600);
-      })
-      .catch(() => {
-        // Blocked — splash screen will handle it
-      });
-  }, []);
+    const handleVisibility = () => {
+      if (document.hidden) {
+        audio.pause();
+        setPlaying(false);
+      } else if (started) {
+        audio.play().then(() => setPlaying(true)).catch(() => {});
+      }
+    };
+    document.addEventListener("visibilitychange", handleVisibility);
+    return () => document.removeEventListener("visibilitychange", handleVisibility);
+  }, [started]);
 
-  const startFromSplash = () => {
+  const dismissSplash = useCallback(() => {
     const audio = audioRef.current;
     if (!audio) return;
-    audio.play().then(() => setPlaying(true)).catch(() => {});
+    audio.play().then(() => {
+      setPlaying(true);
+      setStarted(true);
+    }).catch(() => {});
     setShowSplash(false);
-    setTimeout(() => setSplashGone(true), 650);
-  };
+    setTimeout(() => setSplashGone(true), 700);
+  }, []);
 
   const toggle = () => {
     const audio = audioRef.current;
@@ -40,31 +41,81 @@ export function AudioPlayer() {
       audio.pause();
       setPlaying(false);
     } else {
-      audio.play().then(() => setPlaying(true)).catch(() => {});
+      audio.play().then(() => {
+        setPlaying(true);
+        setStarted(true);
+      }).catch(() => {});
     }
   };
 
+  const base = import.meta.env.BASE_URL;
+
+  // 8 flowers alternating red/white around a circle
+  const flowerPositions = [
+    { angle: 0,   type: "red" },
+    { angle: 45,  type: "white" },
+    { angle: 90,  type: "red" },
+    { angle: 135, type: "white" },
+    { angle: 180, type: "red" },
+    { angle: 225, type: "white" },
+    { angle: 270, type: "red" },
+    { angle: 315, type: "white" },
+  ];
+
   return (
     <>
-      <audio ref={audioRef} src="./bg-music.mp3" loop preload="auto" />
+      <audio ref={audioRef} src={`${base}bg-music.mp3`} loop preload="auto" />
 
-      {/* Full-screen tap-to-begin splash */}
+      {/* Floral circle splash screen */}
       {!splashGone && (
         <div
           className={`splash-screen ${!showSplash ? "splash-screen--out" : ""}`}
-          onClick={startFromSplash}
+          onClick={dismissSplash}
           role="button"
           aria-label="Tap to open invitation"
         >
-          <div className="splash-inner">
-            <p className="splash-bismillah" lang="ar" dir="rtl">
-              بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
-            </p>
-            <p className="splash-names">Dr. Kamil &amp; Aatika</p>
-            <p className="splash-subtitle">Wedding Invitation</p>
-            <div className="splash-tap-hint">
-              <span className="splash-tap-pulse" />
-              Tap to open
+          <div className="splash-circle-wrap">
+            {/* Flower ring */}
+            {flowerPositions.map((f, i) => {
+              const radius = 46; // % from center
+              const rad = (f.angle * Math.PI) / 180;
+              const x = 50 + radius * Math.cos(rad);
+              const y = 50 + radius * Math.sin(rad);
+              const src = f.type === "red"
+                ? `${base}flower-red.png`
+                : `${base}flower-white.png`;
+              const size = f.type === "red" ? 52 : 48;
+              return (
+                <img
+                  key={i}
+                  src={src}
+                  alt=""
+                  className="splash-flower-img"
+                  style={{
+                    left: `${x}%`,
+                    top: `${y}%`,
+                    width: `${size}px`,
+                    height: `${size}px`,
+                    transform: `translate(-50%, -50%) rotate(${f.angle + 20}deg)`,
+                  }}
+                />
+              );
+            })}
+
+            {/* Gold circle border */}
+            <div className="splash-gold-ring" />
+
+            {/* Text content in center */}
+            <div className="splash-inner">
+              <p className="splash-bismillah" lang="ar" dir="rtl">
+                بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
+              </p>
+              <p className="splash-names">Dr. Kamil &amp; Aatika</p>
+              <p className="splash-subtitle">Wedding Invitation</p>
+              <div className="splash-tap-hint">
+                <span className="splash-tap-pulse" />
+                Tap to open
+              </div>
             </div>
           </div>
         </div>
