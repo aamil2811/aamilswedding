@@ -100,9 +100,9 @@ export function ReadingBand({ onPageChange }: ReadingBandProps) {
     >
       <main className="snap-column">
 
-        {/* ── SLIDE GROUP 1: Introduction (bg.jpg) ── */}
+        {/* ── SLIDE GROUP 1: Introduction & Haldi (bg.jpg) ── */}
 
-        {/* Paragraph 1 */}
+        {/* Stop 1: Wedding Invitation */}
         <section
           data-page={1}
           className={`snap-page snap-page-intro ${isV(1) ? "is-visible" : ""}`}
@@ -122,19 +122,19 @@ export function ReadingBand({ onPageChange }: ReadingBandProps) {
           </div>
         </section>
 
-        {/* Paragraph 2: Nikah Ceremony (still bg.jpg) */}
+        {/* Stop 2: Haldi Celebration (2nd stop on first slide) */}
         <section
           data-page={2}
-          className={`snap-page snap-page-arch ${isV(2) ? "is-visible" : ""}`}
+          className={`snap-page snap-page-slide1-event ${isV(2) ? "is-visible" : ""}`}
         >
           <div className="page-card page-card-arch">
-            <EventPage event={nikah} />
+            <EventPage event={haldi} />
           </div>
         </section>
 
-        {/* ── SLIDE GROUP 2: Mameru / Haldi / Barat (bg-page3.jpg) ── */}
+        {/* ── SLIDE GROUP 2: Mameru, Barat, Nikah (bg-page3.jpg) ── */}
 
-        {/* Paragraph 3: Mameru */}
+        {/* Stop 3: Mameru Celebration (3rd stop on second slide) */}
         <section
           data-page={3}
           className={`snap-page snap-page-arch ${isV(3) ? "is-visible" : ""}`}
@@ -144,29 +144,29 @@ export function ReadingBand({ onPageChange }: ReadingBandProps) {
           </div>
         </section>
 
-        {/* Paragraph 4: Haldi */}
+        {/* Stop 4: Barat (4th stop on second slide) */}
         <section
           data-page={4}
           className={`snap-page snap-page-arch ${isV(4) ? "is-visible" : ""}`}
-        >
-          <div className="page-card page-card-arch">
-            <EventPage event={haldi} />
-          </div>
-        </section>
-
-        {/* Paragraph 5: Barat */}
-        <section
-          data-page={5}
-          className={`snap-page snap-page-arch ${isV(5) ? "is-visible" : ""}`}
         >
           <div className="page-card page-card-arch">
             <EventPage event={barat} />
           </div>
         </section>
 
-        {/* ── SLIDE GROUP 3: Walima / Thank You (bg-rug.jpg) ── */}
+        {/* Stop 5: Nikah Ceremony (5th stop on second slide) */}
+        <section
+          data-page={5}
+          className={`snap-page snap-page-arch ${isV(5) ? "is-visible" : ""}`}
+        >
+          <div className="page-card page-card-arch">
+            <EventPage event={nikah} />
+          </div>
+        </section>
 
-        {/* Paragraph 6: Dawat-E-Walima */}
+        {/* ── SLIDE GROUP 3: Walima & Thank You (bg-rug.jpg) ── */}
+
+        {/* Stop 6: Dawat-E-Walima (6th stop on third slide) */}
         <section
           data-page={6}
           className={`snap-page snap-page-arch ${isV(6) ? "is-visible" : ""}`}
@@ -176,7 +176,7 @@ export function ReadingBand({ onPageChange }: ReadingBandProps) {
           </div>
         </section>
 
-        {/* Paragraph 7: Thank You */}
+        {/* Stop 7: Thank You (7th stop on third slide) */}
         <section
           data-page={7}
           className={`snap-page snap-page-arch ${isV(7) ? "is-visible" : ""}`}

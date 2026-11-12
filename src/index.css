@@ -81,11 +81,6 @@ body,
   filter: sepia(18%) brightness(0.97);
 }
 
-/* bg-page3.jpg: warm sepia tint to make white damask off-white/cream */
-.bg-image-page3 {
-  filter: sepia(14%) brightness(0.97);
-}
-
 .bg-image-rug,
 .bg-image-page3 {
   opacity: 0;
@@ -156,13 +151,19 @@ body,
 }
 
 /* ── Page layout variants ── */
-/* Page 1: floral intro — push content down away from top flowers */
+/* Slide 1 (Page 1 Intro): positioned cleanly between top and bottom flourishes */
 .snap-page-intro {
-  padding-top: 18dvh;
-  padding-bottom: 4dvh;
+  padding-top: 22dvh;
+  padding-bottom: 7dvh;
 }
 
-/* Pages 2–7: arch card centered */
+/* Slide 1 (Page 2 Haldi): positioned cleanly inside the floral background */
+.snap-page-slide1-event {
+  padding-top: 14dvh;
+  padding-bottom: 6dvh;
+}
+
+/* Pages 3–7: arch card centered */
 .snap-page-arch {
   padding-top: 6dvh;
   padding-bottom: 4dvh;
@@ -377,7 +378,7 @@ body,
   }
 }
 
-/* ── Floral Circle Splash Screen ── */
+/* ── Tap-to-Begin Splash Screen ── */
 .splash-screen {
   position: fixed;
   inset: 0;
@@ -398,60 +399,32 @@ body,
   pointer-events: none;
 }
 
-.splash-circle-wrap {
-  position: relative;
-  width: min(84vw, 360px);
-  height: min(84vw, 360px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: splash-rise 0.9s ease-out both;
-}
-
-.splash-gold-ring {
-  position: absolute;
-  inset: 12px;
-  border-radius: 50%;
-  border: 1.5px solid rgba(166, 124, 55, 0.55);
-  box-shadow: inset 0 0 20px rgba(166, 124, 55, 0.15);
-  pointer-events: none;
-}
-
-.splash-flower-img {
-  position: absolute;
-  pointer-events: none;
-  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.45));
-  z-index: 2;
-  user-select: none;
-}
-
 .splash-inner {
-  position: relative;
-  z-index: 3;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.65rem;
-  padding: 1.5rem;
+  gap: 1rem;
+  padding: 2rem;
   text-align: center;
+  animation: splash-rise 0.9s ease-out both;
 }
 
 @keyframes splash-rise {
-  from { opacity: 0; transform: translateY(18px) scale(0.95); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .splash-bismillah {
   font-family: "Amiri", serif;
-  font-size: clamp(1.2rem, 3.4dvh, 1.75rem);
+  font-size: clamp(1.4rem, 4dvh, 2.1rem);
   color: #d4a853;
   margin: 0;
-  line-height: 1.35;
+  line-height: 1.4;
 }
 
 .splash-names {
   font-family: "Cormorant SC", Georgia, serif;
-  font-size: clamp(1.3rem, 3.8dvh, 2rem);
+  font-size: clamp(1.5rem, 4.5dvh, 2.4rem);
   font-weight: 600;
   color: #f5e9d6;
   letter-spacing: 0.08em;
@@ -460,9 +433,9 @@ body,
 
 .splash-subtitle {
   font-family: "EB Garamond", Georgia, serif;
-  font-size: clamp(0.8rem, 1.8dvh, 0.92rem);
+  font-size: clamp(0.9rem, 2.2dvh, 1.1rem);
   color: rgba(245, 233, 214, 0.65);
-  letter-spacing: 0.16em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   margin: 0;
 }
@@ -471,21 +444,21 @@ body,
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.35rem;
-  margin-top: 0.5rem;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
   font-family: "EB Garamond", Georgia, serif;
-  font-size: clamp(0.74rem, 1.6dvh, 0.84rem);
-  color: rgba(212, 168, 83, 0.85);
+  font-size: clamp(0.82rem, 2dvh, 0.95rem);
+  color: rgba(212, 168, 83, 0.8);
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
 .splash-tap-pulse {
   display: block;
-  width: 36px;
-  height: 36px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
-  border: 1.5px solid rgba(212, 168, 83, 0.6);
+  border: 2px solid rgba(212, 168, 83, 0.6);
   animation: pulse-ring 1.6s ease-out infinite;
 }
 
