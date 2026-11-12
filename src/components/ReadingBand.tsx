@@ -7,9 +7,9 @@ interface ReadingBandProps {
   onPageChange: (page: number) => void;
 }
 
-function EventCard({ event }: { event: WeddingEvent }) {
+function EventPage({ event }: { event: WeddingEvent }) {
   return (
-    <div className="event-content-block">
+    <>
       <p className="couple-header">{event.header ?? invite.couple}</p>
 
       {event.bismillah && (
@@ -35,16 +35,12 @@ function EventCard({ event }: { event: WeddingEvent }) {
         <p className="event-tagline">{event.tagline.join(" ")}</p>
       )}
 
-      <DetailsBox
-        date={event.date}
-        time={event.time}
-        place={event.place}
-      />
+      <DetailsBox date={event.date} time={event.time} place={event.place} />
 
       {event.note && (
         <p className="event-note">{event.note.join(" ")}</p>
       )}
-    </div>
+    </>
   );
 }
 
@@ -57,10 +53,10 @@ export function ReadingBand({ onPageChange }: ReadingBandProps) {
   const byId = (id: string) =>
     invite.events.find((e) => e.id === id) as WeddingEvent;
 
-  const nikah = byId("nikah");
+  const nikah  = byId("nikah");
   const mameru = byId("mameru");
-  const haldi = byId("haldi");
-  const barat = byId("barat");
+  const haldi  = byId("haldi");
+  const barat  = byId("barat");
   const walima = byId("walima");
 
   useEffect(() => {
@@ -68,6 +64,7 @@ export function ReadingBand({ onPageChange }: ReadingBandProps) {
     if (!scroller) return;
 
     const sections = scroller.querySelectorAll<HTMLElement>("[data-page]");
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -85,17 +82,14 @@ export function ReadingBand({ onPageChange }: ReadingBandProps) {
           }
         });
       },
-      {
-        root: scroller,
-        threshold: 0.35,
-      }
+      { root: scroller, threshold: 0.4 }
     );
 
     sections.forEach((sec) => observer.observe(sec));
     return () => observer.disconnect();
   }, [scrollContainerRef, onPageChange]);
 
-  const isVisible = (p: number) => visiblePages.has(p);
+  const isV = (p: number) => visiblePages.has(p);
 
   return (
     <div
@@ -105,91 +99,98 @@ export function ReadingBand({ onPageChange }: ReadingBandProps) {
       aria-label="Wedding Invitation"
     >
       <main className="snap-column">
-        {/* SLIDE 1: Page 1 to 2 (Introduction & Nikah Ceremony) */}
+
+        {/* ── SLIDE GROUP 1: Introduction (bg.jpg) ── */}
+
+        {/* Paragraph 1 */}
         <section
           data-page={1}
-          className={`snap-page snap-page-slide1 ${isVisible(1) ? "is-visible" : ""}`}
+          className={`snap-page snap-page-intro ${isV(1) ? "is-visible" : ""}`}
         >
-          <div className="page-card page-card-slide1">
-            {/* Page 1: Introduction */}
-            <div className="event-content-block intro-block">
-              <p
-                className="bismillah"
-                lang="ar"
-                dir="rtl"
-                aria-label="Bismillahir Rahmanir Rahim"
-              >
-                {invite.cover.bismillah}
-              </p>
-              <p className="cover-tagline">{invite.cover.line1}</p>
-              <p className="intro-blessing">{invite.cover.blessing}</p>
-              <h1 className="cover-names">{invite.cover.names}</h1>
-            </div>
-
-            <div className="card-divider" />
-
-            {/* Page 2: Nikah Ceremony */}
-            <div className="event-content-block">
-              <p className="couple-header">{nikah.header ?? "The Nikah Ceremony"}</p>
-              {nikah.bismillah && (
-                <p
-                  className="bismillah"
-                  lang="ar"
-                  dir="rtl"
-                  aria-label="Bismillahir Rahmanir Rahim"
-                >
-                  {nikah.bismillah}
-                </p>
-              )}
-              <p className="invited-line">
-                {Array.isArray(nikah.invitedLine)
-                  ? nikah.invitedLine.join(" ")
-                  : nikah.invitedLine}
-              </p>
-              <h2 className="event-title">{nikah.title.join(" ")}</h2>
-              <DetailsBox
-                date={nikah.date}
-                time={nikah.time}
-                place={nikah.place}
-              />
-            </div>
+          <div className="page-card page-card-intro">
+            <p
+              className="bismillah"
+              lang="ar"
+              dir="rtl"
+              aria-label="Bismillahir Rahmanir Rahim"
+            >
+              {invite.cover.bismillah}
+            </p>
+            <p className="cover-tagline">{invite.cover.line1}</p>
+            <p className="intro-blessing">{invite.cover.blessing}</p>
+            <h1 className="cover-names">{invite.cover.names}</h1>
           </div>
         </section>
 
-        {/* SLIDE 2: From 3 to 5 (Mameru, Haldi, Barat) */}
+        {/* Paragraph 2: Nikah Ceremony (still bg.jpg) */}
         <section
           data-page={2}
-          className={`snap-page snap-page-slide2 ${isVisible(2) ? "is-visible" : ""}`}
+          className={`snap-page snap-page-arch ${isV(2) ? "is-visible" : ""}`}
         >
-          <div className="page-card page-card-slide2">
-            <EventCard event={mameru} />
-            <div className="card-divider" />
-            <EventCard event={haldi} />
-            <div className="card-divider" />
-            <EventCard event={barat} />
+          <div className="page-card page-card-arch">
+            <EventPage event={nikah} />
           </div>
         </section>
 
-        {/* SLIDE 3: Page 7 to 8 (Dawat-E-Walima & Thank You) on Persian Rug Arch */}
+        {/* ── SLIDE GROUP 2: Mameru / Haldi / Barat (bg-page3.jpg) ── */}
+
+        {/* Paragraph 3: Mameru */}
         <section
           data-page={3}
-          className={`snap-page snap-page-slide3 ${isVisible(3) ? "is-visible" : ""}`}
+          className={`snap-page snap-page-arch ${isV(3) ? "is-visible" : ""}`}
         >
-          <div className="page-card page-card-slide3">
-            <EventCard event={walima} />
-            <div className="card-divider" />
-            <div className="event-content-block thank-you-block">
-              <p className="couple-header">{invite.couple}</p>
-              <h2 className="event-title">{invite.thankYou.title}</h2>
-              <p className="event-tagline">
-                {invite.thankYou.line1.join(" ")}
-              </p>
-              <p className="body-copy">{invite.thankYou.line2.join(" ")}</p>
-              <p className="signoff">{invite.thankYou.signoff}</p>
-              <p className="cover-names">{invite.thankYou.signature}</p>
-            </div>
+          <div className="page-card page-card-arch">
+            <EventPage event={mameru} />
           </div>
         </section>
+
+        {/* Paragraph 4: Haldi */}
+        <section
+          data-page={4}
+          className={`snap-page snap-page-arch ${isV(4) ? "is-visible" : ""}`}
+        >
+          <div className="page-card page-card-arch">
+            <EventPage event={haldi} />
+          </div>
+        </section>
+
+        {/* Paragraph 5: Barat */}
+        <section
+          data-page={5}
+          className={`snap-page snap-page-arch ${isV(5) ? "is-visible" : ""}`}
+        >
+          <div className="page-card page-card-arch">
+            <EventPage event={barat} />
+          </div>
+        </section>
+
+        {/* ── SLIDE GROUP 3: Walima / Thank You (bg-rug.jpg) ── */}
+
+        {/* Paragraph 6: Dawat-E-Walima */}
+        <section
+          data-page={6}
+          className={`snap-page snap-page-arch ${isV(6) ? "is-visible" : ""}`}
+        >
+          <div className="page-card page-card-arch">
+            <EventPage event={walima} />
+          </div>
+        </section>
+
+        {/* Paragraph 7: Thank You */}
+        <section
+          data-page={7}
+          className={`snap-page snap-page-arch ${isV(7) ? "is-visible" : ""}`}
+        >
+          <div className="page-card page-card-arch">
+            <p className="couple-header">{invite.couple}</p>
+            <h2 className="event-title">{invite.thankYou.title}</h2>
+            <p className="event-tagline">{invite.thankYou.line1.join(" ")}</p>
+            <p className="body-copy">{invite.thankYou.line2.join(" ")}</p>
+            <p className="signoff">{invite.thankYou.signoff}</p>
+            <p className="cover-names">{invite.thankYou.signature}</p>
+          </div>
+        </section>
+
       </main>
     </div>
   );
