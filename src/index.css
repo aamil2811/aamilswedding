@@ -372,6 +372,96 @@ body,
   }
 }
 
+/* ── Tap-to-Begin Splash Screen ── */
+.splash-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: #2a0810;
+  background-image:
+    radial-gradient(ellipse at 50% 50%, #4a1020 0%, #1a040c 70%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 1;
+  transition: opacity 0.6s ease-out;
+}
+
+.splash-screen--out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.splash-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 2rem;
+  text-align: center;
+  animation: splash-rise 0.9s ease-out both;
+}
+
+@keyframes splash-rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.splash-bismillah {
+  font-family: "Amiri", serif;
+  font-size: clamp(1.4rem, 4dvh, 2.1rem);
+  color: #d4a853;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.splash-names {
+  font-family: "Cormorant SC", Georgia, serif;
+  font-size: clamp(1.5rem, 4.5dvh, 2.4rem);
+  font-weight: 600;
+  color: #f5e9d6;
+  letter-spacing: 0.08em;
+  margin: 0;
+}
+
+.splash-subtitle {
+  font-family: "EB Garamond", Georgia, serif;
+  font-size: clamp(0.9rem, 2.2dvh, 1.1rem);
+  color: rgba(245, 233, 214, 0.65);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.splash-tap-hint {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  font-family: "EB Garamond", Georgia, serif;
+  font-size: clamp(0.82rem, 2dvh, 0.95rem);
+  color: rgba(212, 168, 83, 0.8);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.splash-tap-pulse {
+  display: block;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid rgba(212, 168, 83, 0.6);
+  animation: pulse-ring 1.6s ease-out infinite;
+}
+
+@keyframes pulse-ring {
+  0%   { transform: scale(0.8); opacity: 0.9; }
+  70%  { transform: scale(1.3); opacity: 0.2; }
+  100% { transform: scale(0.8); opacity: 0; }
+}
+
 /* ── Floating Music Button ── */
 .audio-btn {
   position: fixed;
