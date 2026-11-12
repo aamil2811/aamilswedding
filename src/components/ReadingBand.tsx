@@ -127,7 +127,7 @@ export function ReadingBand({ onPageChange }: ReadingBandProps) {
           data-page={2}
           className={`snap-page snap-page-slide1-event ${isV(2) ? "is-visible" : ""}`}
         >
-          <div className="page-card page-card-arch">
+          <div className="page-card page-card-slide1-event">
             <EventPage event={haldi} />
           </div>
         </section>

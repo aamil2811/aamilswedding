@@ -157,10 +157,10 @@ body,
   padding-bottom: 7dvh;
 }
 
-/* Slide 1 (Page 2 Haldi): positioned cleanly inside the floral background */
+/* Slide 1 (Page 2 Haldi): positioned cleanly between top and bottom flourishes */
 .snap-page-slide1-event {
-  padding-top: 14dvh;
-  padding-bottom: 6dvh;
+  padding-top: 22dvh;
+  padding-bottom: 7dvh;
 }
 
 /* Pages 3–7: arch card centered */
@@ -191,6 +191,13 @@ body,
 .page-card-intro {
   width: 82%;
   max-width: 540px;
+}
+
+/* Haldi card on slide 1: framed tightly between top and bottom flourishes */
+.page-card-slide1-event {
+  width: 74%;
+  max-width: 420px;
+  gap: 0.32rem;
 }
 
 /* Arch event pages: fit inside the arch artwork */
