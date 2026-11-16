@@ -91,6 +91,17 @@ export function ReadingBand({ onPageChange }: ReadingBandProps) {
 
   const isV = (p: number) => visiblePages.has(p);
 
+  const scrollToNext = () => {
+    const scroller = scrollContainerRef.current;
+    if (!scroller) return;
+    const page2 = scroller.querySelector<HTMLElement>('[data-page="2"]');
+    if (page2) {
+      page2.scrollIntoView({ behavior: "smooth" });
+    } else {
+      scroller.scrollBy({ top: window.innerHeight, behavior: "smooth" });
+    }
+  };
+
   return (
     <div
       ref={scrollContainerRef}
@@ -107,6 +118,28 @@ export function ReadingBand({ onPageChange }: ReadingBandProps) {
           data-page={1}
           className={`snap-page snap-page-intro ${isV(1) ? "is-visible" : ""}`}
         >
+          <button
+            type="button"
+            className="scroll-hint-pop"
+            onClick={scrollToNext}
+            aria-label="Scroll to read"
+          >
+            <span>Scroll to read</span>
+            <svg
+              width="12"
+              height="12"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </button>
+
           <div className="page-card page-card-intro">
             <p
               className="bismillah"
